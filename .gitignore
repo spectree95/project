@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+mb_env/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.mo
+media/
+staticfiles/
+
+# PostgreSQL (если вдруг будут дампы)
+*.sql
+*.dump
+
+# VS Code
+.vscode/
+
+
+# System files
+.DS_Store
+Thumbs.db

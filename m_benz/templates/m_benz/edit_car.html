@@ -1,0 +1,35 @@
+{% extends 'm_benz/add_car.html' %}
+{% load static %}
+{% block section %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Изменить <button type="submit" style="margin-left: 10px; background-color: #212529;color:aliceblue" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить машину</button></h2>
+    
+    <div class="modal" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Удалить машину</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Вы действительно хотите удалить эту машину?</p>
+          </div>
+          <div class="modal-footer">
+            <form method="POST" action="{% url 'm_benz:car_delete' car.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary" >Да</button>
+            </form>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Нет</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'm_benz:edit_car' car.id %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <label for="id_image">Фотографии:</label>
+      <input type="file" name="images" multiple class="form-control mb-3" />
+      <button type="submit" style="margin-bottom: 58px;background-color: #212529;color:aliceblue" class="btn btn-dark">Сохранить</button>
+    </form>
+  </div>
+{% endblock %}

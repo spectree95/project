@@ -1,0 +1,89 @@
+{% extends "store/cart.html" %}
+{% load static %}
+{% load humanize %}
+{% block section %}
+    <p style="font-size: 40px;text-align: center;padding-top: 20px;" >Оформление заказа</p>
+    
+    <div class="container">
+      <form  method="POST" action="{% url "store:checkout" %}">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="order_body shadow p-4">
+              <p style="font-size: 25px;">Контактные данные получателя</p>
+              <p>{{request.user.first_name}}</p>
+              <p>{{request.user.email}}</p>
+              <p>{{request.user.phone_number}}</p>
+            </div>
+            <div>
+                <div class="order_body shadow p-4">
+                    <p style="font-size: 25px;">Доставка</p>    
+                    <div class="address">
+                      <div>
+                        {{form.city.label_tag}}
+                        {{form.city}}
+                      </div>
+                      <div>
+                        {{form.street.label_tag}}
+                        {{form.street}}
+                      </div>
+                      <div>
+                        {{form.house.label_tag}}
+                        {{form.house}}
+                      </div>
+                    </div>
+                </div>
+                <div class="order_body shadow p-4">
+                    <p style="font-size: 25px;">Оплата</p>
+                    <div>
+                      {{form.payment_method.label_tag}}  
+                      {{form.payment_method}}
+                    </div>
+                    <div>
+                      {{form.comment.label_tag}}
+                      {{form.comment}}           
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card shadow p-4" style="width: 470px;border-color: rgb(211, 210, 210)"> 
+              <div class="card-body">
+                <p style="font-size: 23px;color:#000000 ">Ваш заказ</p>
+                {% for item in cart_items %}
+                  <div class="order_ending">
+                    <img class="ending_img" style="padding-bottom: 10px;" src="{{item.car.images.first.image.url}}" alt="{{item.car.name}}">
+                    <div class="order_ending_text">
+                      <span>{{item.car.name}}</span><br>
+                      <span>{{item.car.engine_capacity}} L, {{item.car.drivetrain}}</span><br>
+                      <span>{{item.quantity}} товар</span>
+                      <span>{{ item.car.price |intcomma}} $</span><br>
+                    </div>
+                      
+                  </div>
+                  <hr style="border: none; height: 1px; background-color: rgba(164, 163, 163, 1);">
+                {% endfor %}
+                <div class="cart_buy">
+                  <div>
+                    <p>{{cart_quantity}} Товар:</p>
+                    <p>Доставка:</p>
+                    <p style="color: crimson;">Скидка:</p>
+                    <p class="card-text" >Итого:</p>
+                  </div>
+                  <div style="text-align: right;">
+                    <p>{{total_car|intcomma}} $ </p>
+                    <p>100 $</p>
+                    <p style="color: crimson;">-0 $</p>
+                    <p>{{total|intcomma}} $</p>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Оформить заказ</button>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </form>
+    </div>
+    <div style="padding-bottom: 50px;"></div>
+{% endblock section %}
+

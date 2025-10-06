@@ -1,0 +1,56 @@
+{% extends 'm_benz/add_car.html' %}
+{% load static %}
+{% block section %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="nav-panel"> 
+            <p>Mercedes-Benz — всемирно известный автопроизводитель, известный своими роскошными автомобилями, автобусами, междугородными автобусами и грузовиками. Основанная в 1926 году, компания ведёт свою историю с изобретения первого бензинового автомобиля Карлом Бенцем в 1886 году.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Автомобили класса люкс: Mercedes-Benz — синоним роскоши, предлагающий широкий выбор автомобилей премиум-класса для различных сегментов рынка. От компактных автомобилей, таких как A-класс, до представительских седанов, таких как S-класс, внедорожников, спорткаров и даже коммерческих автомобилей — Mercedes-Benz охватывает широкий спектр автомобилей.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Инновации: Mercedes-Benz является пионером в области автомобильной инженерии и инноваций. На протяжении своей истории компания внедрила множество технологических новинок, таких как антиблокировочные системы тормозов (ABS), системы контроля тяги, подушки безопасности, а в последнее время — усовершенствованные системы помощи водителю (ADAS) и технологии электромобилей.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Имидж бренда: Mercedes-Benz создал сильный имидж бренда, ассоциирующийся с престижем, качеством и производительностью. Логотип в виде трёхконечной звезды мгновенно узнаваем во всём мире и стал символом роскоши и изысканности.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+         
+        </div>
+
+        <div class="col-lg-9">
+          <div class="chat-owner" style="border-radius: 30px;">
+
+            <div class="chat-nav" style="background: #a09ec9ff;width: 100%;">
+                <img src="{{car.images.first.image.url}}" style="width: 100px;height: 80px;" alt="">
+                <p>{{car.owner.username}}  </p>
+            </div>
+            <div class="messages" id="messages" style="height: 500px;">
+                {% for msg in messages %}
+                    <p>{{msg.text}} {{msg.created}}</p>
+                {% endfor %}
+            </div>
+
+
+            <div class="chat-input-container">
+                <input 
+                    data-car-id="{{car.id}}"
+                    data-car-owner-id="{{car.owner.id}}"
+                    data-current-user-id="{{request.user.username}}"
+                    type="text"
+                    style="height: 50px;width: 500px;border-radius: 30px;padding-left: 10px;align-items: center;background: #f1f1f1;" placeholder="Напишите сообщение..."
+                    id="chat-input">
+                <button type="submit" id="message-send">Отправить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script src="{% static 'bootstrap/style/js/chat_owner.js' %}"></script>
+{% endblock section %}

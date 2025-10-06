@@ -1,0 +1,52 @@
+{% extends "store/cart.html" %}
+{% load humanize %}
+{% block section %}
+{% for fav in favorites %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="nav-panel"> 
+            <p>Mercedes-Benz — всемирно известный автопроизводитель, известный своими роскошными автомобилями, автобусами, междугородными автобусами и грузовиками. Основанная в 1926 году, компания ведёт свою историю с изобретения первого бензинового автомобиля Карлом Бенцем в 1886 году.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Автомобили класса люкс: Mercedes-Benz — синоним роскоши, предлагающий широкий выбор автомобилей премиум-класса для различных сегментов рынка. От компактных автомобилей, таких как A-класс, до представительских седанов, таких как S-класс, внедорожников, спорткаров и даже коммерческих автомобилей — Mercedes-Benz охватывает широкий спектр автомобилей.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Инновации: Mercedes-Benz является пионером в области автомобильной инженерии и инноваций. На протяжении своей истории компания внедрила множество технологических новинок, таких как антиблокировочные системы тормозов (ABS), системы контроля тяги, подушки безопасности, а в последнее время — усовершенствованные системы помощи водителю (ADAS) и технологии электромобилей.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Имидж бренда: Mercedes-Benz создал сильный имидж бренда, ассоциирующийся с престижем, качеством и производительностью. Логотип в виде трёхконечной звезды мгновенно узнаваем во всём мире и стал символом роскоши и изысканности.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+         
+        </div>
+        <div class="col-lg-9">
+            <div class="container">
+              <div class="row">
+                {% for fav in favorites %}
+                  <div class="col-lg-4 col-md-6">
+                    <div class="card" style="width: 18rem;">
+                      <a href="{% url 'm_benz:car' fav.car.id %}" style="text-decoration: none;color:black">
+                        <img src="{{fav.car.images.first.image.url}}" style="width: 100%; height: 170px; object-fit: cover;" class="card-img-top" alt="{{fav.car.name}}"> 
+                        <div class="card-body">
+                          <h5 class="card-text" style="margin-top: 4px; margin-bottom: 10px" >{{fav.car.price|intword}}$</h5>
+                          <h5 class="card-title">{{fav.car.name}}</h5>
+                          <p class="card-text">{{fav.car.description|truncatechars:90 }}</p>
+                          <h6 class="card-text">{{fav.car.created_at}}</h6>
+                        </div>
+                      </a>  
+                    </div>
+                  </div>
+                {% endfor %}             
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-0"></div>
+      </div>
+    </div>
+{% endfor %}
+{% endblock section %}
+

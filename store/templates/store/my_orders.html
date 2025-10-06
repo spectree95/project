@@ -1,0 +1,78 @@
+{% extends "store/cart.html" %}
+{% load static %}
+{% block section %}
+    <h1 style="text-align: center;padding-top: 20px;">Ваши заказы</h1>
+    <div class="container-fluid">
+        {% for order in orders %}
+            <div class="row">
+                <div class="col-lg-4">
+                    <h3>Заказ: №{{order.id}}</h3>
+                    
+                    <div class="order_body shadow p-4" style="margin-top: 0px;">
+                        <div class="order_box">
+                            <img style="width: 70px;margin-top: 35px;" src="{% static 'bootstrap/style/order.png' %}" alt="">
+                            <div style="margin-left: 20px;">
+                                <h5>Информация о заказе </h5>
+                                <h4 style="font-size: 18px;">Сделан <span>{{order.created_at}}</span></h4>
+                                <h4 style="font-size: 18px;">Статус получения товара: {{order.status}}</h4>
+                                <h4 style="font-size: 18px;">Метод оплаты: {{order.payment_method}} </h4>
+                                <h4 style="font-size: 18px;">Статус: оплачен </h4>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="order_body shadow p-4">
+                        <div class="order_box">
+                            <img style="width: 70px;margin-top: 8px;" src="{% static 'bootstrap/style/user.png' %}" alt="">
+                            <div style="margin-left: 20px;">
+                                <h5>Контактная информация</h5>
+                                <h4 style="font-size: 18px;">Покупатель: {{order.user.username}}</h4>
+                                <h4 style="font-size:18px;">{{order.user.phone_number}}<h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order_body shadow p-4">
+                        <div class="order_box">
+                            <img style="width: 70px;" src="{% static 'bootstrap/style/calendar.png' %}" alt="">
+                            <div style="margin-left: 20px;">
+                               <h5>Дата готовности заказа</h5>
+                               <h4 style="font-size: 18px;">Заказ будет доставлен в течении 7 дней по адресу</h4>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="order_body shadow p-4"> 
+                        <div class="order_box">
+                            <img style="width: 70px;margin-top: 15px;" src="{% static 'bootstrap/style/delivery.png' %}" alt="">
+                            <div style="margin-left: 20px;">
+                                <h5>Информация о доставке</h5>
+                                <h4 style="font-size: 18px;">{{order}} </h4>
+                                <h4 style="font-size: 18px;">Адрес: г {{order.city}}, ул {{order.street}}, дом {{order.house}}</h4>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+                <div class="col-lg-8" style="padding-right: 50px;">
+                    <h3>Общая сумма заказа: {{order.total_price}}$</h3>
+                    <h3>Список машин:</h3>
+                    {% for item in order.items.all %}
+                        <div class="order_row shadow p-4">
+                            <img style="width: 270px;" src="{{item.car.images.first.image.url}}" alt="">
+                            <div class="cart_quantity">
+                                <p>{{item.car.name}}</p>
+                                <p>{{item.car.engine_capacity}} L, {{item.car.drive_type}} коробка</p>
+                                <p>{{item.car.drivetrain}}</p>
+                            </div>
+                            <div class="cart_price1">
+                                <p>Количество: {{item.quantity}}</p>
+                                <p>{{item.price_at_purchase}}$</p>
+
+                            </div>           
+                        </div>  
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock section %}
+
+

@@ -1,0 +1,131 @@
+{% extends "m_benz/Nurbol.html" %}
+
+{%load static%}
+{% load humanize %}
+{% block title %}Showroom{% endblock title %}
+                                                            
+{% block nav-link %}
+  <a class="nav-link" aria-current="page" href="{% url 'm_benz:Nurbol' %}">Домой</a>
+  <a class="nav-link active" href="{% url 'm_benz:showroom' %}" style="margin-right:5px">Автосалон </a>
+  
+  {% if user.is_authenticated %}
+    <a href="{% url "store:cart" %}"><img src="{% static "bootstrap/style/big-handbag.png" %}" style="width:30px"></a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <button class="btn btn-dark dropdown-toggle" style="font-size: 20px" data-bs-toggle="dropdown" aria-expanded="false">
+                {{user.username}}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark" style="background-color: #212529;font-size: 17px;color:aliceblue;">
+                <li>
+                  <a class='dropdown-item' href="{% url "m_benz:my_cars" %}">Мои машины</a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item" style="a:hover{color: #3f3f3f;}"href="{% url 'store:liked' %}">Избранные</a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item" href="{% url 'chat:chat_tg'  %}">Чат</a>
+                </li>
+                
+                <li>
+                  <a class="dropdown-item" href="{% url "store:my_orders" %}">Мои заказы</a>
+                </li>
+                
+                <li>
+                  <a class="dropdown-item" href="{% url "m_benz:add_car" %}">Подать объявление</a>
+                </li>
+                
+                <li>
+                  <a class='dropdown-item' href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+                  <form method="POST" id="logout-form" style="display:none"action={% url "users:logout" %}>
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url "m_benz:showroom" %}">
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  {% else %}
+
+    <a class="nav-link" href="{% url "users:login" %}">Войти</a>
+    <a class="nav-link" href="{% url "users:register" %}">Регистрация</a>
+  {% endif %}
+{% endblock nav-link %}
+ 
+{% block section %}
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="nav-panel"> 
+            <p>Mercedes-Benz — всемирно известный автопроизводитель, известный своими роскошными автомобилями, автобусами, междугородными автобусами и грузовиками. Основанная в 1926 году, компания ведёт свою историю с изобретения первого бензинового автомобиля Карлом Бенцем в 1886 году.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Автомобили класса люкс: Mercedes-Benz — синоним роскоши, предлагающий широкий выбор автомобилей премиум-класса для различных сегментов рынка. От компактных автомобилей, таких как A-класс, до представительских седанов, таких как S-класс, внедорожников, спорткаров и даже коммерческих автомобилей — Mercedes-Benz охватывает широкий спектр автомобилей.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Инновации: Mercedes-Benz является пионером в области автомобильной инженерии и инноваций. На протяжении своей истории компания внедрила множество технологических новинок, таких как антиблокировочные системы тормозов (ABS), системы контроля тяги, подушки безопасности, а в последнее время — усовершенствованные системы помощи водителю (ADAS) и технологии электромобилей.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+          <div class="nav-panel">
+            <p>Имидж бренда: Mercedes-Benz создал сильный имидж бренда, ассоциирующийся с престижем, качеством и производительностью. Логотип в виде трёхконечной звезды мгновенно узнаваем во всём мире и стал символом роскоши и изысканности.</p>
+            <a href="#" class="btn btn-primary">Читать больше</a>
+          </div>
+         
+        </div>
+        <div class="col-lg-9">
+            <div class="container">
+              <div class="row">
+                {% for car in cars %}
+                  <div class="col-lg-4 col-md-6">
+                    <div class="card" style="width: 18rem;">
+                      <a href="{% url 'm_benz:car' car.id %}" style="text-decoration: none;color:black">
+                        <img src="{{car.images.first.image.url}}" style="width: 100%; height: 170px; object-fit: cover;" class="card-img-top" alt="{{car.name}}"> 
+                        <div class="card-body">
+                          <h5 class="card-text" style="margin-top: 4px; margin-bottom: 10px" >{{car.price|intword}}$</h5>
+                          <h5 class="card-title">{{car.name}}</h5>
+                          <p class="card-text">{{car.description|truncatechars:90 }}</p>
+                          <h6 class="card-text">{{car.created_at}}</h6>
+                        </div>
+                      </a>  
+                    </div>
+                  </div>
+                {% endfor %}             
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-0"></div>
+      </div>
+    </div>
+  </section>
+{% endblock section %}
+{% block footer %}
+
+  <footer>
+    <div class="footer">
+      <div class="footer-text">
+        <a href="#">Помощь на дороге</a>
+        <a href="#">Пользовательское соглашение</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Не продавайте мою личную информацию (CCPA)</a>
+        
+      </div>
+      <div class="mersf">
+        <a href="{% url "m_benz:Nurbol" %}"><img  src="https://www.mercedes-benz.com/content/dam/brandhub/global/logos/logo_footer.svg" alt="">
+        </a>
+      </div>
+      </div>
+  </footer>
+{% endblock footer %}

@@ -1,0 +1,59 @@
+{% extends "m_benz/Nurbol.html" %}
+    
+
+
+{% block nav-link %}
+    <a class="nav-link" aria-current="page" href="{% url 'm_benz:Nurbol' %}">Домой</a>
+    <a class="nav-link " href="{% url 'm_benz:showroom' %}">Автосалон</a>
+    {% if user.is_authenticated %}
+        <a class='nav-link' href="#">{{user.username}}</a> 
+        <a class='nav-link' href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>
+        <form id="logout-form" method="POST" action="{% url 'users:logout' %}" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'm_benz:showroom' %}">
+        </form>
+    {% else %}
+        <a class="nav-link"  href="{% url "users:login" %}">Войти</a>
+        <a class="nav-link active" href="#">Регистрация</a>
+    {% endif %}
+{% endblock nav-link %}
+{% block section %}
+                                                                                                                                                                                                                                    
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow p-4" style="width: 500px;">
+            <h3 class="text-center mb-4">Регистрация</h3>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                    <div class="mb-3">
+                        {{form}}
+                        {% if form.errors %}
+                            <div class="text-danger small">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                <button type="submit" class="btn btn-dark w-100">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>          
+{% endblock section %}  
+
+
+{% block footer %}
+<footer>
+    <div class="footer">
+      <div class="footer-text">
+        <a href="#">Помощь на дороге</a>
+        <a href="#">Пользовательское соглашение</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Не продавайте мою личную информацию (CCPA)</a>
+        
+      </div>
+      <div class="mersf">
+        <a href="{% url "m_benz:Nurbol"%}"><img  src="https://www.mercedes-benz.com/content/dam/brandhub/global/logos/logo_footer.svg" alt="">
+        </a>
+      </div>
+      </div>
+  </footer>
+{% endblock footer %}
+
+
+  

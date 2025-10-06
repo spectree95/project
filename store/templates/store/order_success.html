@@ -1,0 +1,21 @@
+{% extends "store/cart.html" %}
+{% load humanize %}
+{% block section %}
+<div class="container text-center mt-5">
+  <h2 class="mb-4">Спасибо за заказ, {{ order.user.first_name }}!</h2>
+
+  <p>Ваш заказ успешно оформлен.</p>
+  <p><strong>Номер заказа:</strong> {{ order.id }}</p>
+  <p><strong>Сумма заказа:</strong> {{ order.total_price|intcomma }} $</p>
+  <p><strong>Метод оплаты:</strong> {{ order.get_payment_method_display }}</p>
+
+  <hr>
+  <h4>Адрес доставки:</h4>
+  <p>{{ order.city }}, {{ order.street }}, {{ order.house }}</p>
+
+  <a href="{% url 'm_benz:showroom' %}" class="btn btn-primary mt-4">Вернуться в автосалон</a>
+</div>
+    <div style="padding-bottom: 50px;"></div>
+
+{% endblock section %}
+

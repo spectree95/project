@@ -17,6 +17,17 @@ def car(request,car_id):
     car = Car.objects.get(id=car_id)
     return render(request, 'm_benz/car.html', {'car': car})
     
+    
+def available_cars(request):
+    cars = Car.objects.all()
+    available_carss = []
+    for car in cars:
+        if car.quantity > 0:
+            available_carss.append(car)
+    context = {"available_cars":available_carss}
+    return render(request, 'm_benz/available_cars.html',context)
+    
+    
 @login_required    
 def add_car(request):
     if request.method == "GET":

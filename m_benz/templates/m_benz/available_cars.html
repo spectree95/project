@@ -1,0 +1,23 @@
+{% extends "m_benz/showroom.html" %}
+
+{%load static%}
+{% load humanize %}
+{% block section %}
+    {% for car in available_cars %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card" style="width: 18rem;">
+                <a href="{% url 'm_benz:car' car.id %}" style="text-decoration: none;color:black">
+                    <img src="{{car.images.first.image.url}}" style="width: 100%; height: 170px; object-fit: cover;" class="card-img-top" alt="{{car.name}}"> 
+                    <div class="card-body">
+                        <h5 class="card-text" style="margin-top: 4px; margin-bottom: 10px" >{{car.price|intword}}$</h5>
+                        <h5 class="card-title">{{car.name|truncatechars:23}}</h5>
+                        <p  class="card-text" lang="ru" style="word-wrap: break-word;overflow-wrap: break-word;word-break: break-all;hyphens: auto;">{{car.description|striptags|truncatechars:90 }}</p>
+                        <h6 class="card-text">{{car.created_at}}</h6>
+                    </div>
+                </a>  
+            </div>
+        </div>
+    {% endfor %}
+{% endblock section %}
+
+

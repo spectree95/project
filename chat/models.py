@@ -5,15 +5,16 @@ from mercedes_benz import settings
 
 
 class Room(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="rooms")
     user_a = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="rooms_a")
     user_b = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name="rooms_b")
-
+    latest_message = models.ForeignKey('Message', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
     @property
     def last_message(self):
         return self.messages.last()
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["user_a","user_b"], name="unique_name_pair")
+            models.UniqueConstraint(fields=["car","user_a","user_b"], name="unique_name_pair")
         ]
         
     

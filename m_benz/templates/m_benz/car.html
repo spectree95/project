@@ -27,7 +27,11 @@
                 </li>
 
                 <li>
-                  <a class="dropdown-item" href="{% url 'store:checkout' %}">Мои заказы</a>
+                  <a class="dropdown-item" href="{% url "store:my_orders" %}">Мои заказы</a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item" href="{% url 'chat:chat_tg'  %}">Чат</a>
                 </li>
                 
                 <li>
@@ -64,9 +68,15 @@
                   {% if user == car.owner %}
                     <div><a href="{% url "m_benz:edit_car" car.id%}">Изменить</a></div>
                   {% else %}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cartModal">
-                      Добавить в корзину
-                    </button>
+                    {% if car.quantity == 0 %}
+                      <button  class="btn btn-danger">
+                        Нет в наличии
+                      </button>
+                    {% else %}
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        Добавить в корзину
+                      </button>
+                    {% endif %}
                     <!-- Модальное окно -->
                     <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
                       <div class="modal-dialog modal-lg">
@@ -187,7 +197,7 @@
         </div>
     </div>
 
-
+<script src="{% static 'bootstrap/style/js/chat_owner.js' %}"></script>
 <script src="{% static 'bootstrap/style/js/like.js' %}"></script>
 {% endblock section %}
 
@@ -208,7 +218,7 @@
         
       </div>
       <div class="mersf">
-        <a href="{% url "m_benz:Nurbol"%}"><img  src="https://www.mercedes-benz.com/content/dam/brandhub/global/logos/logo_footer.svg" alt="">
+        <a href="{% url "m_benz:Nurbol"%}"><img  src="{% static 'bootstrap/style/mersss.svg' %}" alt="">
         </a>
       </div>
       </div>

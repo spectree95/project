@@ -1,7 +1,8 @@
 const input = document.getElementById("chat-input");
-const carId = input.dataset.carId;
+const carId = parseInt(input.dataset.carId);
 const carOwnerId = input.dataset.carOwnerId;
 const currentUserId = input.dataset.currentUserId
+const send_to_owner = document.getElementById("send_to_owner")
 
 const ws = new WebSocket(`ws://${location.host}/ws/chat_owner/${carId}/`);
 
@@ -23,12 +24,16 @@ ws.onmessage = function(e) {
     messageContainer.scrollTop = messageContainer.scrollHeight
 }
 
+console.log("carId = ", carId, "typeof:", typeof carId);
 sendBtn.onclick = function () {
     const message = input.value;
     if (!message) return;
     ws.send(JSON.stringify({
+        "command": "send",
         "message": message,
         "sender_id": currentUserId,
+        "car_id": carId,
+        
     }));
 
     input.value = "";

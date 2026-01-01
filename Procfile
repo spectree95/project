@@ -1,0 +1,1 @@
+web: gunicorn mercedes_benz.wsgi --log-file -

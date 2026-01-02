@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)wpmc*%tg#bnfw%mm9s01wz++g!-(hfg56sb-vn_w%ayp!!$p4'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '3dd2b7729684719cab3a76ad130632fe')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    "project-5io6.onrender.com",
+    ".onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
 
 
 # Application definition
@@ -85,16 +94,10 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mercedes',
-        'USER': 'Nurbol',
-        'PASSWORD': 'Nurbol2006!',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
+    'default': dj_database_url.config(
+        default='postgres://Nurbol:Nurbol2006!@localhost:5432/mercedes'
+    )
 }
-
 
 
 
@@ -133,7 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]

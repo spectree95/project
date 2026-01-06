@@ -94,10 +94,11 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://Nurbol:Nurbol2006!@localhost:5432/mercedes'
+    'default': dj_database_url.parse(
+        os.environ.get("DATABASE_URL")
     )
 }
+
 
 
 
